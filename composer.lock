@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0fe3d5cec4e012d1a9f7f3116520e361",
+    "content-hash": "ca7a968a6dc4113346da374f025db079",
     "packages": [
         {
             "name": "SEMICeu/adms-ap_validator",
@@ -6216,6 +6216,57 @@
             "homepage": "https://www.drupal.org/project/simplenews",
             "support": {
                 "source": "https://git.drupalcode.org/project/simplenews"
+            }
+        },
+        {
+            "name": "drupal/site_alert",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/site_alert.git",
+                "reference": "8.x-1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/site_alert-8.x-1.0.zip",
+                "reference": "8.x-1.0",
+                "shasum": "b6f40ea8c39ebc34758764e556c0bd9eb190c7cb"
+            },
+            "require": {
+                "drupal/core": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0",
+                    "datestamp": "1571325228",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "cecrs",
+                    "homepage": "https://www.drupal.org/user/1876384"
+                },
+                {
+                    "name": "nicola85",
+                    "homepage": "https://www.drupal.org/user/1746956"
+                }
+            ],
+            "description": "Allows site admins to display a site-wide alert to all users.",
+            "homepage": "https://www.drupal.org/project/site_alert",
+            "support": {
+                "source": "https://git.drupalcode.org/project/site_alert"
             }
         },
         {
