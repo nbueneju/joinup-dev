@@ -591,7 +591,7 @@ class JoinupSubContext extends DrupalSubContextBase {
    *
    * @BeforeNodeCreate
    */
-  public static function massageFieldsBeforeNodeCreate(BeforeNodeCreateScope $scope) {
+  public function massageFieldsBeforeNodeCreate(BeforeNodeCreateScope $scope) {
     $node = $scope->getEntity();
 
     // Replace field label aliases with the actual field names.
@@ -638,6 +638,18 @@ class JoinupSubContext extends DrupalSubContextBase {
         'type' => 'visit_count',
         'count' => (int) $node->visit_count,
       ]);
+    }
+
+    if (property_exists($node, 'published_at') && !is_numeric($node->published_at)) {
+      $node->published_at = strtotime($node->published_at);
+    }
+
+    $image_fields = ['field_news_logo'];
+    foreach ($image_fields as $image_field) {
+      if (!empty($node->$image_field)) {
+        $file = $this->createFile($node->$image_field);
+        $node->$image_field = $file->getFileUri();
+      }
     }
 
     // Replace the human-readable values for multiple fields.
@@ -699,6 +711,8 @@ class JoinupSubContext extends DrupalSubContextBase {
       'news' => [
         'headline' => 'field_news_headline',
         'keywords' => 'field_keywords',
+        'logo' => 'field_news_logo',
+        'publication date' => 'published_at',
         'spatial coverage' => 'field_news_spatial_coverage',
         'state' => 'field_state',
       ],
@@ -2663,6 +2677,101 @@ JS;
   public function assertParagraphText(string $text): void {
     $element = $this->getSession()->getPage()->find('xpath', '//p[text() = "' . $text . '"]');
     Assert::assertNotEmpty($element);
+  }
+
+  /**
+   * Asserts that the content absolute urls exist as links.
+   *
+   * @param \Behat\Gherkin\Node\TableNode $titles
+   *   The titles of the nodes.
+   *
+   * @throws \Exception
+   *   Thrown if any link does not exist in the page.
+   *
+   * @Given I should see the absolute urls of the following content entities:
+   */
+  public function assertContentAbsoluteUrlsAsLinkInPage(TableNode $titles): void {
+    foreach ($titles->getRows() as $title) {
+      $this->assertEntityUrlInSitemap('node', $title[0]);
+    }
+  }
+
+  /**
+   * Asserts that the rdf entity absolute urls exist as links.
+   *
+   * @param \Behat\Gherkin\Node\TableNode $titles
+   *   The titles of the rdf entities.
+   *
+   * @throws \Exception
+   *   Thrown if any link does not exist in the page.
+   *
+   * @Given I should see the absolute urls of the following RDF entities:
+   */
+  public function assertRdfEntityAbsoluteUrlsAsLinkInPage(TableNode $titles): void {
+    foreach ($titles->getRows() as $title) {
+      $this->assertEntityUrlInSitemap('rdf_entity', $title[0]);
+    }
+  }
+
+  /**
+   * Asserts that the content absolute urls do not exist as links.
+   *
+   * @param \Behat\Gherkin\Node\TableNode $titles
+   *   The titles of the nodes.
+   *
+   * @throws \Exception
+   *   Thrown if at least a link exists in the page.
+   *
+   * @Given I should not see the absolute urls of the following content entities:
+   */
+  public function assertNotContentAbsoluteUrlsAsLinkInPage(TableNode $titles): void {
+    foreach ($titles->getRows() as $title) {
+      $this->assertEntityUrlInSitemap('node', $title[0], FALSE);
+    }
+  }
+
+  /**
+   * Asserts that the absolute url of an rdf entity exists as a link.
+   *
+   * @param \Behat\Gherkin\Node\TableNode $titles
+   *   The titles of the rdf entities.
+   *
+   * @throws \Exception
+   *   Thrown if the link does not exist in the page.
+   *
+   * @Given I should not see the absolute urls of the following RDF entities:
+   */
+  public function assertEmptyRdfEntityAbsoluteUrlsAsLinkInPage(TableNode $titles): void {
+    foreach ($titles->getRows() as $title) {
+      $this->assertEntityUrlInSitemap('rdf_entity', $title[0], FALSE);
+    }
+  }
+
+  /**
+   * Asserts a url in the sitemap response.
+   *
+   * @param string $entity_type_id
+   *   The entity type id.
+   * @param string $entity_label
+   *   The entity label.
+   * @param bool $exists
+   *   (optional) Whether to assert that a link exists or not exists. Defaults
+   *   to TRUE.
+   *
+   * @throws \Exception
+   *   Thrown if the link assertion is not the expected one.
+   */
+  protected function assertEntityUrlInSitemap(string $entity_type_id, string $entity_label, bool $exists = TRUE): void {
+    $entity = $this->getEntityByLabel($entity_type_id, $entity_label);
+    $link_text = $entity->toUrl()->setAbsolute()->toString();
+    $expected = '<loc>' . $link_text . '</loc>';
+    $response = $this->getSession()->getPage()->getContent();
+    if ($exists) {
+      Assert::assertContains($expected, $response);
+    }
+    else {
+      Assert::assertNotContains($expected, $response);
+    }
   }
 
   /**
