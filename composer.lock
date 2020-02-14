@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cdeb6026c43909288c703f89c3202e12",
+    "content-hash": "f338d4e3c29b5273fd1f83c05b63377d",
     "packages": [
         {
             "name": "SEMICeu/adms-ap_validator",
@@ -6289,17 +6289,11 @@
         },
         {
             "name": "drupal/site_alert",
-            "version": "1.0.0",
+            "version": "dev-1.x",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/site_alert.git",
-                "reference": "8.x-1.0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/site_alert-8.x-1.0.zip",
-                "reference": "8.x-1.0",
-                "shasum": "b6f40ea8c39ebc34758764e556c0bd9eb190c7cb"
+                "reference": "6c2ad9d9c230c95ccf08f936c2b555d8c41913e3"
             },
             "require": {
                 "drupal/core": "*"
@@ -6310,11 +6304,11 @@
                     "dev-1.x": "1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-1.0",
-                    "datestamp": "1571325228",
+                    "version": "8.x-1.0+6-dev",
+                    "datestamp": "1581670679",
                     "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
+                        "status": "not-covered",
+                        "message": "Dev releases are not covered by Drupal security advisories."
                     }
                 }
             },
@@ -6330,13 +6324,18 @@
                 {
                     "name": "nicola85",
                     "homepage": "https://www.drupal.org/user/1746956"
+                },
+                {
+                    "name": "pfrenssen",
+                    "homepage": "https://www.drupal.org/user/382067"
                 }
             ],
             "description": "Allows site admins to display a site-wide alert to all users.",
             "homepage": "https://www.drupal.org/project/site_alert",
             "support": {
                 "source": "https://git.drupalcode.org/project/site_alert"
-            }
+            },
+            "time": "2020-02-14T08:58:26+00:00"
         },
         {
             "name": "drupal/smart_trim",
@@ -16190,6 +16189,7 @@
         "drupal/matomo_reporting_api": 20,
         "drupal/og_menu": 20,
         "drupal/phingdrushtask": 20,
+        "drupal/site_alert": 20,
         "drupal/swiftmailer": 20,
         "drupal/view_unpublished": 15,
         "ec-europa/infra": 20,
